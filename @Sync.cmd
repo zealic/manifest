@@ -18,6 +18,7 @@ if not exist ManifestUrl.txt (
 for /f %%i in (ManifestUrl.txt) do set manifest_url=%%i
 popd
 pushd "%~dp0\.."
+del /q .gclient*
 gclient config --name=manifest %manifest_url%
 gclient sync -j 1
 popd
@@ -42,5 +43,6 @@ if [ ! -f ManifestUrl.txt ] ; then
 fi
 manifest_url=$(cat < ManifestUrl.txt)
 cd ".."
+rm .gclient*
 gclient.py config --name=manifest $manifest_url
 gclient.py sync -j 1
