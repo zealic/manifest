@@ -24,6 +24,7 @@ popd
 #=========================================================
 export GIT_SSL_NO_VERIFY=true
 PATH=$PWD/depot_tools:$PATH
+chmod 700 $PWD/depot_tools/gclient.py
 git submodule update --init
 manifest_url=$(cat < ManifestUrl.txt)
 cd ".."
