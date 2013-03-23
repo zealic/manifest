@@ -24,8 +24,9 @@ goto :eof
 :APPLY_PATCH
 set name=%~1
 set full_pfile=%cd%\%~nx2
-cd "%third_party_dir%\%name%"
+pushd "%third_party_dir%\%name%"
 git apply "%full_pfile%"
+popd
 goto :eof
 """
 #!/bin/bash
@@ -40,8 +41,9 @@ do
     for pfile in $( find . -type f -name "*.patch" )
     do
       full_pfile=$(pwd)/$(basename $pfile)
-      cd "$third_party_dir/$name"
-      git apply "$full_pfile"
+      pushd "$third_party_dir/$name" > /dev/null
+        git apply "$full_pfile"
+      popd > /dev/null
     done
   popd > /dev/null
 done
