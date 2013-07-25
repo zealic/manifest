@@ -23,6 +23,10 @@ goto :eof
 
 :APPLY_PATCH
 set name=%~1
+if not exist "%third_party_dir%\%name%" (
+  echo third-party directory '%third_party_dir%\%name%' dose not exist, patch skipped.
+  goto :eof
+)
 set full_pfile=%cd%\%~nx2
 pushd "%third_party_dir%\%name%"
 git apply "%full_pfile%"
@@ -38,6 +42,10 @@ cd patches
 for name in */
 do
   pushd $name > /dev/null
+    if [ ! -d "$third_party_dir/$name" ]; then
+      echo "third-party directory '$third_party_dir/$name' dose not exist, patch skipped."
+      continue
+    fi
     for pfile in $( find . -type f -name "*.patch" )
     do
       full_pfile=$(pwd)/$(basename $pfile)

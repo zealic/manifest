@@ -15,6 +15,10 @@ goto :eof
 
 :APPLY_DIR
 set name=%~1
+if not exist "%third_party_dir%\%name%" (
+  echo third-party directory '%third_party_dir%\%name%' dose not exist, reset patch skipped.
+  goto :eof
+)
 cd /d "%third_party_dir%\%name%"
 git reset --hard HEAD
 goto :eof
@@ -28,6 +32,10 @@ cd patches
 for name in */
 do
   pushd $name > /dev/null
+    if [ ! -d "$third_party_dir/$name" ]; then
+      echo "third-party directory '$third_party_dir/$name' dose not exist, reset patch skipped."
+      continue
+    fi
     cd "$third_party_dir/$name"
     git reset --hard HEAD
   popd > /dev/null
